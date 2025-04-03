@@ -162,11 +162,18 @@ function Penta(x, y, r, vx, vy, cor) {
 
 function callbackbotao(e) {
     if (e.target.id === "pButton") {
+        if (!gPausado){
+            document.getElementById("pButton").innerHTML = "Pausado"
+        }
+        else{
+            document.getElementById("pButton").innerHTML = "Rodando"
+        }
         gPausado = !gPausado;
         if (!gPausado) {
             gUltimoT = Date.now();
             desenhe();
         }
+
     }
     if (e.target.id === "passo") {
         if (gPausado) {
@@ -204,13 +211,13 @@ function callbackrange(e){
 
 
 function callbackkey(e) {
-
-    if (e.key === " ") {
-        gPausado = !gPausado;
-        if (!gPausado) {
-            gUltimoT = Date.now();
-            desenhe();
+    if (gPausado) {
+        let delta = Number(e.key)
+        gPosicoes = [];
+        for (let i = 0; i < gObjetos.length; i++) {
+            gObjetos[i].atualize_vertices(delta);
         }
+        atualiza_buffer_e_draw()
     }
 }
 
