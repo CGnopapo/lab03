@@ -73,6 +73,7 @@ function main() {
     range_velo.onchange = callbackrange;
 
     let nd_velo = document.getElementById("ndSlider");
+    nd_velo.onchange = callbackrange;
 
     window.onkeydown = callbackkey
 
@@ -216,10 +217,20 @@ function callbackbotao(e) {
 
 
 function callbackrange(e) {
-
+    let valor = parseInt(e.target.value);
     if (e.target.id === "velSlider") {
-        let valor = parseInt(e.target.value);
         fatorVel = valor;
+    }
+
+    if (e.target.id === "ndSlider") {
+        if (valor != gObjetos.length) {
+            let diff = valor - gObjetos.length;
+            while (gObjetos.length != valor) {
+                if (diff > 0)
+                    pushPenta();
+                popPenta();
+            }
+        }
     }
 }
 
