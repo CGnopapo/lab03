@@ -76,8 +76,8 @@ function main() {
 
     let vx = range_velo.value
     let vy = range_velo.value
-    gObjetos.push(new Disco(50, 140, sorteieInteiro(50, 80), vx, vy, sorteieCorRGBA()));
-    gObjetos.push(new Disco(150, 240, sorteieInteiro(15, 50), vx, vy, sorteieCorRGBA()));
+    gObjetos.push(new Penta(50, 140, sorteieInteiro(50, 80), vx, vy, sorteieCorRGBA()));
+    gObjetos.push(new Penta(150, 240, sorteieInteiro(15, 50), vx, vy, sorteieCorRGBA()));
 
     crieShaders();
 
@@ -108,7 +108,7 @@ function desenhe() {
 }
 
 
-function Disco(x, y, r, vx, vy, cor) {
+function Penta(x, y, r, vx, vy, cor) {
     this.vertices = aproximeDisco(r, DISCO_RES);
     this.nv = this.vertices.length;
     this.vel = vec2(vx, vy);
@@ -303,28 +303,12 @@ function crieShaders() {
 };
 
 function aproximeDisco(raio, ref = 4) {
-    let vertices = [
-        vec2(raio, 0),
-        vec2(0, raio),
-        vec2(-raio, 0),
-        vec2(0, -raio),
-    ];
-
-    for (let i = 1; i < ref; i++) {
-        let novo = [];
-        let nv = vertices.length;
-        for (let j = 0; j < nv; j++) {
-            novo.push(vertices[j]);
-            let k = (j + 1) % nv;
-            let v0 = vertices[j];
-            let v1 = vertices[k];
-            let m = mix(v0, v1, 0.5);
-
-            let s = raio / length(m);
-            m = mult(s, m)
-            novo.push(m);
-        }
-        vertices = novo;
+    let vertices = [];
+    for (let i = 0; i < 360; i += 360/5) {
+        let x = raio * Math.sin(i * Math.PI / 180);
+        let y = raio * Math.cos(i * Math.PI / 180);
+        vertices.push(vec2(x, y));
     }
+
     return vertices;
 }
