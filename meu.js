@@ -3,9 +3,8 @@
 
     Autores:
 
-    NUSP - Nome:
-    NUSP - Nome:
-    NUSP - Nome:
+    NUSP - Nome: 14565201 - Daiki Teruya Inoue
+    NUSP - Nome:11796260 - André Luiz Batista Bueno
 
     Ao preencher esse cabeçalho com os nomes e número USP dos participantes,
     declaramos que todas as partes originais desse exercício programa (EP)
@@ -168,6 +167,20 @@ function Penta(x, y, r, vx, vy, cor) {
         if (y < r) { y = 2 * r - y; vy = -vy; };
         if (x >= gCanvas.width - r) { x = 2 * (gCanvas.width - r) - x; vx = -vx; };
         if (y >= gCanvas.height - r) { y = 2 * (gCanvas.height - r) - y; vy = -vy; };
+        
+        for (const objeto of gObjetos) {
+            let origens = subtract(objeto.pos, this.pos);
+            let dist = length(origens);
+            let limite = objeto.r + this.r;
+            if (dist <= limite) {
+                // paralelo ao vetor que passa pelas origens dos pentagonos
+                let proj_paral_coef = dot(this.vel, origens) / dot(origens, origens);
+                let proj_paral = mult(proj_paral_coef, origens);
+                let proj_perp = subtract(this.vel, proj_paral);
+                [vx, vy] = subtract(proj_paral, proj_perp);
+            }
+        }
+
         let centro = this.pos = vec2(x, y);
         this.vel = vec2(vx, vy);
 
