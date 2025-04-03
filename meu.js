@@ -108,7 +108,7 @@ function desenhe() {
 }
 
 
-function Penta(x, y, r, vx, vy, cor) {
+function Disco(x, y, r, vx, vy, cor) {
     this.vertices = aproximeDisco(r, DISCO_RES);
     this.nv = this.vertices.length;
     this.vel = vec2(vx, vy);
@@ -161,7 +161,7 @@ function Penta(x, y, r, vx, vy, cor) {
 
 
 function callbackbotao(e) {
-    if (e.target.id === "pause") {
+    if (e.target.id === "pButton") {
         gPausado = !gPausado;
         if (!gPausado) {
             gUltimoT = Date.now();
