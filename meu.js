@@ -190,18 +190,7 @@ function callbackbotao(e) {
 
 function callbackrange(e){
 
-    if (e.target.id === "ref") {
-
-        let valor = e.target.value;
-
-        for (let i = 0; i < gObjetos.length; i++) {
-            let vertices = aproximeDisco(gObjetos[i].r, valor);
-            gObjetos[i].vertices = vertices
-            gObjetos[i].nv = vertices.length
-        }
-    }
-
-    if (e.target.id === "velo") {
+    if (e.target.id === "velSlider") {
         let valor = e.target.value;
         for (let i = 0; i < gObjetos.length; i++) {
             gObjetos[i].vel = mult(( valor/ length(gObjetos[i].vel)), gObjetos[i].vel);
@@ -212,7 +201,7 @@ function callbackrange(e){
 
 function callbackkey(e) {
     if (gPausado) {
-        let delta = Number(e.key)
+        let delta = Number(e.key) * 0.1
         gPosicoes = [];
         for (let i = 0; i < gObjetos.length; i++) {
             gObjetos[i].atualize_vertices(delta);
