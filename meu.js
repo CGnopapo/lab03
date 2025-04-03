@@ -1,16 +1,49 @@
+/* ==================================================
+    lab03.js
 
+    Autores:
 
-// Rotação?
-// Modificar tamanho dos discos via input?
-// Botar tudo na conta do
+    NUSP - Nome:
+    NUSP - Nome:
+    NUSP - Nome:
 
+    Ao preencher esse cabeçalho com os nomes e número USP dos participantes,
+    declaramos que todas as partes originais desse exercício programa (EP)
+    foram desenvolvidas e implementadas por nosso time e que portanto não
+    constituem desonestidade acadêmica ou plágio.
 
-////////////////////////////////////////////////////////////////////////
-//++++++++++++++++++++++++++++++++++     ++++++++++++++++++++++++++++++
-////////////////////////////////////////////////////////////////////////
+    Declaramos também que somos responsáveis por todas as cópias desse
+    programa e que não distribuímos ou facilitamos a sua distribuição.
+    Estamos cientes que os casos de plágio e desonestidade acadêmica
+    serão tratados segundo os critérios divulgados na página da
+    disciplina.
+    Entendemos que EPs sem assinatura devem receber nota zero e, ainda
+    assim, poderão ser punidos por desonestidade acadêmica.
+
+================================================== */
+/**
+ * Esqueleto de um programa usando WegGL
+ * Dessa vez usando as bibliotecas
+ * macWebglUtils.js
+ * MVnew.js do livro do Angel -- Interactive Computer Graphics
+ */
+
+"use strict";
+
+// ==================================================================
+// constantes globais usadas na geração do vídeo
 
 const FUNDO = [0, 1, 1, 1];
-let DISCO_RES = 3;
+const PASSO = 0.1;
+const MAX_PENTAS = 50;
+const MIN_LADO = 10;
+const MAX_LADO = 30;
+const MIN_VEL = -40;
+const MAX_VEL = 40;
+
+
+
+let DISCO_RES = 2;
 var gl;
 var gCanvas;
 var gShader = {};
@@ -31,15 +64,10 @@ function main() {
     if (!gl) alert("WebGL 2.0 isn't available");
 
 
-    let botao_pause = document.getElementById("pause");
+    let botao_pause = document.getElementById("pButton");
     botao_pause.onclick = callbackbotao
 
-    let botao_passo = document.getElementById("passo");
-    botao_passo.onclick = callbackbotao
-
-    let range = document.getElementById("ref");
-    let range_velo = document.getElementById("velo");
-    range.onchange = callbackrange;
+    let range_velo = document.getElementById("velSlider");
     range_velo.onchange = callbackrange;
 
 
@@ -80,7 +108,7 @@ function desenhe() {
 }
 
 
-function Disco(x, y, r, vx, vy, cor) {
+function Penta(x, y, r, vx, vy, cor) {
     this.vertices = aproximeDisco(r, DISCO_RES);
     this.nv = this.vertices.length;
     this.vel = vec2(vx, vy);
