@@ -3,23 +3,31 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>WebGL - exemplo 2</title>
+    <title>Lab03 - WebGL</title>
     <script src="https://www.ime.usp.br/~hitoshi/mac0420/libs/macWebglUtils.js"></script>
     <script src="https://www.ime.usp.br/~hitoshi/mac0420/libs/MVnew.js"></script>
+    <script src="lab03.js"></script>
 </head>
 
 <body>
+<h1>MAC0420/MAC5786</h1>
+<h2>Lab 03 - WebGL</h2>
 <canvas id="glcanvas" width="400" height="400">
     Opa! pode parece que seu navegador não suporta o canvas do HTML5.
 </canvas>
-<br>
-<input type="button" value="Pause" id="pause">
-<input type="button" value="Passo" id="passo">
-<br>
-<input type="range" name="ref" id="ref" min="1" max="10" step="1" value="1">
-<br>
-<input type="range" name="velo" id="velo" min="10" max="200" step="40" value="50">
-<script src="meu.js"></script>
+<p></p>
+<div>
+    <input id="ndSlider" class="styled" type="range" value="5" min="1" max="50" step="1" name="ndSlider"></input>
+    <label for="ndSlider">Número de pentágonos [1, 50]</label>
+</div>
+<div>
+    <input id="velSlider" class="styled" type="range" value="5" min="1" max="25" step="1" name="velSlider"></input>
+    <label for="velSlider">Velocidade [1, 25]</label>
+</div>
+<div>
+    <button id = "pButton">Rodando</button>
+</div>
+<p>Quando "Pausado", aperte um número de 1 a 9 que corresponde ao tamanho do intervalo do "passo-a-passo" que pode ser usado para depuração.
 </body>
 
 </html>
