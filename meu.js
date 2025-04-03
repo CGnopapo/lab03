@@ -56,6 +56,8 @@ var gUltimoT = Date.now();
 var gPausado = false;
 
 
+var fatorVel = 5;
+
 window.onload = main;
 
 function main() {
@@ -70,14 +72,18 @@ function main() {
     let range_velo = document.getElementById("velSlider");
     range_velo.onchange = callbackrange;
 
+    let nd_velo = document.getElementById("ndSlider");
 
     window.onkeydown = callbackkey
 
 
-    let vx = range_velo.value
-    let vy = range_velo.value
-    gObjetos.push(new Penta(50, 140, sorteieInteiro(50, 80), vx, vy, sorteieCorRGBA()));
-    gObjetos.push(new Penta(150, 240, sorteieInteiro(15, 50), vx, vy, sorteieCorRGBA()));
+    for (let i = 0; i < parseInt(nd_velo.value); i++) {
+        pushPenta();
+    }
+    // let vx = range_velo.value
+    // let vy = range_velo.value
+    // gObjetos.push(new Penta(50, 140, sorteieInteiro(50, 80), vx, vy, sorteieCorRGBA()));
+    // gObjetos.push(new Penta(150, 240, sorteieInteiro(15, 50), vx, vy, sorteieCorRGBA()));
 
     crieShaders();
 
@@ -97,7 +103,7 @@ function desenhe() {
         gUltimoT = now;
         gPosicoes = [];
         gCores = []
-        for (let i = 0; i < gObjetos.length; i++){
+        for (let i = 0; i < gObjetos.length; i++) {
             gObjetos[i].atualize_vertices(delta)
         }
 
@@ -105,6 +111,27 @@ function desenhe() {
 
         window.requestAnimationFrame(desenhe);
     }
+}
+
+function popPenta() {
+    gObjetos.pop();
+    for (let i = 0; i < 5; i++) {
+        gPosicoes.pop();
+        gPosicoes.pop();
+        gPosicoes.pop();
+        gCores.pop();
+        gCores.pop();
+        gCores.pop();
+    }
+}
+
+function pushPenta() {
+    let vx = sorteieInteiro(20, 100);
+    let vy = sorteieInteiro(20, 100);
+    let r = sorteieInteiro(30, 80);
+    let x = sorteieInteiro(r, 400 - r);
+    let y = sorteieInteiro(r, 400 - r);
+    gObjetos.push(new Penta(x, y, r, vx, vy, sorteieCorRGBA()));
 }
 
 
@@ -130,7 +157,7 @@ function Penta(x, y, r, vx, vy, cor) {
     }
 
     this.atualize_vertices = function (delta) {
-        this.pos = add(this.pos, mult(delta, this.vel));
+        this.pos = add(this.pos, mult(delta * fatorVel, this.vel));
         let x, y;
         let vx, vy;
         [x, y] = this.pos;
@@ -162,10 +189,10 @@ function Penta(x, y, r, vx, vy, cor) {
 
 function callbackbotao(e) {
     if (e.target.id === "pButton") {
-        if (!gPausado){
+        if (!gPausado) {
             document.getElementById("pButton").innerHTML = "Pausado"
         }
-        else{
+        else {
             document.getElementById("pButton").innerHTML = "Rodando"
         }
         gPausado = !gPausado;
@@ -188,13 +215,11 @@ function callbackbotao(e) {
 }
 
 
-function callbackrange(e){
+function callbackrange(e) {
 
     if (e.target.id === "velSlider") {
-        let valor = e.target.value;
-        for (let i = 0; i < gObjetos.length; i++) {
-            gObjetos[i].vel = mult(( valor/ length(gObjetos[i].vel)), gObjetos[i].vel);
-        }
+        let valor = parseInt(e.target.value);
+        fatorVel = valor;
     }
 }
 
@@ -217,7 +242,7 @@ function callbackkey(e) {
 
 
 
-function atualiza_buffer_e_draw(){
+function atualiza_buffer_e_draw() {
 
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gShader.bufPosicoes);
@@ -300,7 +325,7 @@ function crieShaders() {
 
 function aproximeDisco(raio, ref = 4) {
     let vertices = [];
-    for (let i = 0; i < 360; i += 360/5) {
+    for (let i = 0; i < 360; i += 360 / 5) {
         let x = raio * Math.sin(i * Math.PI / 180);
         let y = raio * Math.cos(i * Math.PI / 180);
         vertices.push(vec2(x, y));
